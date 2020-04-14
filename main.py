@@ -20,20 +20,22 @@ class Contact:
       return x
 
     def add(self):
-      args = []
-      for arg in self.args:
-        args.append(arg)
-        args.append('\n')
-      together = '  '.join(args)
-      info = list(self.kwargs.items())
-      kwargs = []
-      for pair in info:
-        b = ': '.join(pair)
-        kwargs.append(b)
-        kwargs.append('\n')
-      result = '  '.join(kwargs)
-      return '{}  {}'.format(together, result)
-
+      try:
+        args = []
+        for arg in self.args:
+          args.append(arg)
+          args.append('\n')
+        together = '  '.join(args)
+        info = list(self.kwargs.items())
+        kwargs = []
+        for pair in info:
+          b = ': '.join(pair)
+          kwargs.append(b)
+          kwargs.append('\n')
+        result = '  '.join(kwargs)
+        return '{}  {}'.format(together, result)
+      except TypeError:
+        return None 
     return f'''Имя: {self.name} 
 Фамилия: {self.surname}
 Телефон: {self.phone_num}
@@ -47,50 +49,54 @@ mary = Contact('Mary', 'Johnsson', '+9097483553', True, 'массаж')
 
 kate = Contact('Kate', 'Wang', '+0765246789', True, telegram='@w_kate')
 
-data = [[jhon.name, jhon.surname, jhon.phone_num, jhon.fav, jhon.args, jhon.kwargs],[mary.name, mary.surname, mary.phone_num, mary.fav, mary.args, mary.kwargs], [kate.name, kate.surname, kate.phone_num, kate.fav, kate.args, kate.kwargs]]
+data = [jhon, mary, kate]
 
-#print(type(jhon))
+#print(jhon)
 
 class PhoneBook:
 
   def __init__(self, book_name):
     self.book_name = book_name
+    self.contacts = []
     
 
   def print_contacts(self):
-    if self.book_name == Contact:
-      for name in data:
-        print(name)
+    print(self.book_name + '\n')
+    for name in data:
+      print(name)
 
   def add_contact(self, name, surname, phone_num, fav=False, *args, **kwargs):
-    if self.book_name == Contact:
-      info = [name, surname, phone_num, fav, args, kwargs]
-      data.append(info)
-      print(data)
+    add = Contact(name, surname, phone_num, fav, args, kwargs)
+    data.append(add)
+    print(self.book_name + '\n')
+    for name in data:
+      print(name)
 
   def del_contact(self, number):
-    if self.book_name == Contact:
-      for contact in data:
-        if number in contact:
-          data.remove(contact)
-      print(data)
+    for contact in data:
+      if number == contact.phone_num:
+        data.remove(contact)
+    print(self.book_name + '\n')
+    for name in data:
+      print(name)
 
   def find_fav(self):
-    if self.book_name == Contact:
-      for contact in data:
-        if True in contact:
-          print(contact)
+    print(self.book_name + '\n')
+    for contact in data:
+      if contact.fav:
+        print(contact)
 
   def search(self, name, surname):
-    if self.book_name == Contact:
-      for contact in data:
-        if name and surname in contact:
-          print(contact)
+    print(self.book_name + '\n')
+    for contact in data:
+      if name == contact.name and surname == contact.surname:
+        print(contact)
+    
  
 
-book = PhoneBook(Contact)
-# book.print_contacts()
-# book.add_contact('July', 'Fox', '+793745566')
-# book.del_contact('+71234567809')
-# book.find_fav()
-# book.search('Mary', 'Johnsson')
+frirends = PhoneBook('Friends')
+#frirends.print_contacts()
+#frirends.add_contact('July', 'Fox', '+793745566')
+#frirends.del_contact('+71234567809')
+#frirends.find_fav()
+#frirends.search('Mary', 'Johnsson')
